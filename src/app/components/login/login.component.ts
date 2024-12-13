@@ -10,14 +10,17 @@ import { NotifService } from '../../services/notif.service';
 import { LoginRequest } from '../../models/auth';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule, NgIf, LoadingComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  loading = false;
+
   loginFormGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', Validators.required),
@@ -34,6 +37,8 @@ export class LoginComponent {
       return;
     }
 
+    this.loading = true;
+
     const loginReq: LoginRequest = {
       username: this.loginFormGroup.controls.username.value ?? '',
       password: this.loginFormGroup.controls.password.value ?? '',
@@ -42,9 +47,10 @@ export class LoginComponent {
 
     this.authService.login(loginReq).subscribe({
       next: (res) => {
-        // TODO: add a loading
+        this.loading = false;
       },
       error: (err) => {
+        this.loading = false;
         this.notif.error('failed to login!', 'please try again later');
         console.error('failed to do login:', err);
       },
