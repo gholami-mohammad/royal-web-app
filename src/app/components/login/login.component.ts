@@ -42,22 +42,7 @@ export class LoginComponent {
 
     this.authService.login(loginReq).subscribe({
       next: (res) => {
-        // TODO: use tap pipe to store user data in auth service
-        // store access token
-        localStorage.setItem('accessToken', res.accessToken);
-        // store refresh token
-        localStorage.setItem('refreshToken', res.refreshToken);
-        // store user information
-        const user: User = {
-          id: res.id,
-          username: res.username,
-          email: res.email,
-          firstName: res.firstName,
-          lastName: res.lastName,
-          gender: res.gender,
-          image: res.image,
-        };
-        localStorage.setItem('user', JSON.stringify(user));
+        // TODO: add a loading
       },
       error: (err) => {
         this.notif.error('failed to login!', 'please try again later');
