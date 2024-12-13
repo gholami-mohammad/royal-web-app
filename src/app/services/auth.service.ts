@@ -33,4 +33,22 @@ export class AuthService {
       })
     );
   }
+
+  whoami(): Observable<User> {
+    const target = `${environment.baseURL}/auth/me`;
+    const token = localStorage.getItem('accessToken');
+
+    if (!token || token == '') {
+      return new Observable((obs) => {
+        obs.error('unauthenticated user');
+        obs.complete();
+      });
+    }
+
+    return this.http.get<User>(target, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
 }

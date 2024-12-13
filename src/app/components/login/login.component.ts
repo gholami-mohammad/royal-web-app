@@ -11,6 +11,7 @@ import { LoginRequest } from '../../models/auth';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user';
 import { LoadingComponent } from '../loading/loading.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,11 @@ export class LoginComponent {
     password: new FormControl('', Validators.required),
   });
 
-  constructor(private notif: NotifService, private authService: AuthService) {}
+  constructor(
+    private notif: NotifService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   login() {
     if (this.loginFormGroup.invalid) {
@@ -47,6 +52,7 @@ export class LoginComponent {
 
     this.authService.login(loginReq).subscribe({
       next: (res) => {
+        this.router.navigate(['/dashboard']);
         this.loading = false;
       },
       error: (err) => {
