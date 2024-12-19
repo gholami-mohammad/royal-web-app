@@ -1,15 +1,34 @@
 import { Injectable } from '@angular/core';
 import { LoginRequest, LoginResponse } from '../models/auth';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { User } from '../models/user';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  static _user?: User;
+  static userSubject: Subject<User | undefined> = new Subject();
+
+  static getUser(): User | undefined {
+    if (AuthService._user) {
+      return AuthService._user;
+    }
+    try {
+      const userStr = localStorage.getItem('user');
+      const user = JSON.parse(userStr ?? '') as User;
+      AuthService._user = user;
+
+      return AuthService._user;
+    } catch (e) {
+      return undefined;
+    }
+  }
+
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(loginReq: LoginRequest): Observable<LoginResponse> {
     const target = `${environment.baseURL}/auth/login`;
@@ -30,6 +49,9 @@ export class AuthService {
           image: res.image,
         };
         localStorage.setItem('user', JSON.stringify(user));
+        AuthService._user = user;
+
+        AuthService.userSubject.next(user);
       })
     );
   }
@@ -50,5 +72,15 @@ export class AuthService {
         Authorization: `Bearer ${token}`,
       },
     });
+  }
+
+  logout() {
+    localStorage.removeItem('user');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+
+    AuthService.userSubject.next(undefined);
+
+    this.router.navigate(['/login']);
   }
 }

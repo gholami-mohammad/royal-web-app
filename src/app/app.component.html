@@ -19,9 +19,25 @@
             >Home</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="!isLogin; else authBlock">
           <a class="nav-link" [routerLink]="['/login']">Login</a>
         </li>
+        <ng-template #authBlock>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [routerLink]="['dashboard']"
+              style="cursor: pointer"
+              >Dashboard</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" (click)="logout()" style="cursor: pointer"
+              >Logout</a
+            >
+          </li>
+        </ng-template>
       </ul>
       <form class="d-flex">
         <input
