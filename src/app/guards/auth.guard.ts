@@ -20,8 +20,7 @@ export const authGuard: CanActivateFn = async (route, state) => {
   } catch (e) {
     console.error('can activate failed: ', e);
 
-    // TODO: fix login page blinking when refreshing
-    // router.navigate(['/login']);
+    authService.logout();
     return false;
   }
 };

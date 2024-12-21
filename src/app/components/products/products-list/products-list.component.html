@@ -1,0 +1,31 @@
+<app-loading [loading]="loading"></app-loading>
+
+<div
+  *ngIf="productsResult && productsResult != undefined; else noProduct"
+  class="mt-3"
+>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of productsResult.products">
+          <td>{{ p.title }}</td>
+          <td>{{ p.category }}</td>
+          <td>{{ p.price }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #noProduct>
+  <div>
+    <h4>NO ITEM</h4>
+  </div>
+</ng-template>
