@@ -39,12 +39,8 @@ export class ProductsListComponent implements OnInit {
           this.productsResult = res;
 
           this.totalPages = Math.ceil(res.total / this.limit);
-          for (let i = 1; i <= this.totalPages; i++) {
-            this.pagesTemp.push(i);
-          }
-
           this.currentPage = res.skip / this.limit + 1;
-
+          this.pagerCalc();
           this.loading = false;
         },
         error: (err) => {
@@ -57,5 +53,15 @@ export class ProductsListComponent implements OnInit {
   gotoPage(pageNumber: number = 1) {
     this.currentPage = pageNumber;
     this.loadProducts();
+  }
+
+  pagerCalc() {
+    for (let i = this.currentPage - 1; i <= this.currentPage + 1; i++) {
+      if (i == 0 || i > this.totalPages) {
+        continue;
+      }
+
+      this.pagesTemp.push(i);
+    }
   }
 }
