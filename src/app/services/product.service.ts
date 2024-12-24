@@ -9,11 +9,12 @@ import { ProductsResponse } from '../models/product';
 export class ProductService {
   constructor(private http: HttpClient) {}
 
-  list() {
+  list({ limit = 10, page = 1 }) {
+    let skip = (page - 1) * limit;
     const target = environment.baseURL + '/products';
     let params = new HttpParams()
-      .append('limit', 10)
-      .append('skip', 0)
+      .append('limit', limit)
+      .append('skip', skip)
       .append('select', 'id,title,category,price');
 
     return this.http.get<ProductsResponse>(target, {
