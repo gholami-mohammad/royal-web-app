@@ -25,6 +25,11 @@
 
   <nav aria-label="Page navigation example">
     <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" (click)="gotoPage(1)" style="cursor: pointer"
+          >First</a
+        >
+      </li>
       <li class="page-item" [class.disabled]="currentPage == 1">
         <a class="page-link" (click)="gotoPage(currentPage - 1)">Previous</a>
       </li>
@@ -43,6 +48,14 @@
           (click)="gotoPage(currentPage + 1)"
           style="cursor: pointer"
           >Next</a
+        >
+      </li>
+      <li class="page-item">
+        <a
+          class="page-link"
+          (click)="gotoPage(totalPages)"
+          style="cursor: pointer"
+          >Last</a
         >
       </li>
     </ul>
