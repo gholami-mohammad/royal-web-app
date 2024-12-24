@@ -11,6 +11,11 @@ export class ProductService {
 
   list({ limit = 10, page = 1 }) {
     let skip = (page - 1) * limit;
+    if (skip < 0 || limit < 0) {
+      skip = 0;
+      limit = 10;
+    }
+
     const target = environment.baseURL + '/products';
     let params = new HttpParams()
       .append('limit', limit)

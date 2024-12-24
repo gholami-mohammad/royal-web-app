@@ -16,8 +16,8 @@ export class ProductsListComponent implements OnInit {
   productsResult?: ProductsResponse;
   totalPages = 0;
   pagesTemp: Array<number> = [];
-  currentPage = 0;
-  pageNumber = 1;
+  currentPage = 1;
+  limit: number = 10;
 
   constructor(
     private productService: ProductService,
@@ -32,28 +32,30 @@ export class ProductsListComponent implements OnInit {
     this.loading = true;
     this.pagesTemp = [];
     // load products
-    this.productService.list({ limit: 10, page: this.pageNumber }).subscribe({
-      next: (res) => {
-        this.productsResult = res;
+    this.productService
+      .list({ limit: this.limit, page: this.currentPage })
+      .subscribe({
+        next: (res) => {
+          this.productsResult = res;
 
-        this.totalPages = Math.ceil(res.total / res.limit);
-        for (let i = 1; i <= this.totalPages; i++) {
-          this.pagesTemp.push(i);
-        }
+          this.totalPages = Math.ceil(res.total / this.limit);
+          for (let i = 1; i <= this.totalPages; i++) {
+            this.pagesTemp.push(i);
+          }
 
-        this.currentPage = res.skip / res.limit + 1;
+          this.currentPage = res.skip / this.limit + 1;
 
-        this.loading = false;
-      },
-      error: (err) => {
-        this.loading = false;
-        this.notif.error('failed to load products');
-      },
-    });
+          this.loading = false;
+        },
+        error: (err) => {
+          this.loading = false;
+          this.notif.error('failed to load products');
+        },
+      });
   }
 
   gotoPage(pageNumber: number = 1) {
-    this.pageNumber = pageNumber;
+    this.currentPage = pageNumber;
     this.loadProducts();
   }
 }
