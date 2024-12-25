@@ -8,6 +8,7 @@
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
+          <th></th>
           <th>Title</th>
           <th>Category</th>
           <th>Price</th>
@@ -15,6 +16,15 @@
       </thead>
       <tbody>
         <tr *ngFor="let p of productsResult.products">
+          <td>
+            <button
+              class="btn btn-primary"
+              type="button"
+              (click)="showProductInfo(p)"
+            >
+              Info
+            </button>
+          </td>
           <td>{{ p.title }}</td>
           <td>{{ p.category }}</td>
           <td>{{ p.price }}</td>
@@ -67,3 +77,5 @@
     <h4>NO ITEM</h4>
   </div>
 </ng-template>
+
+<app-products-info-modal [product]="selectedProduct"></app-products-info-modal>

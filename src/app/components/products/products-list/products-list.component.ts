@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../../services/product.service';
 import { LoadingComponent } from '../../loading/loading.component';
-import { ProductsResponse } from '../../../models/product';
+import { ProductsResponse, ProductSummary } from '../../../models/product';
 import { NgFor, NgIf } from '@angular/common';
 import { NotifService } from '../../../services/notif.service';
+import { ProductsInfoModalComponent } from '../products-info-modal/products-info-modal.component';
 
 @Component({
   selector: 'app-products-list',
-  imports: [LoadingComponent, NgIf, NgFor],
+  imports: [LoadingComponent, NgIf, NgFor, ProductsInfoModalComponent],
   templateUrl: './products-list.component.html',
   styleUrl: './products-list.component.scss',
 })
@@ -64,4 +65,11 @@ export class ProductsListComponent implements OnInit {
       this.pagesTemp.push(i);
     }
   }
+
+  //#region show product info
+  selectedProduct?: ProductSummary;
+  showProductInfo(p: ProductSummary) {
+    this.selectedProduct = p;
+  }
+  //#endregion show product info
 }

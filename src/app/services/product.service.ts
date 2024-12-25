@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { ProductsResponse } from '../models/product';
+import { Product, ProductsResponse } from '../models/product';
 
 @Injectable({
   providedIn: 'root',
@@ -25,5 +25,10 @@ export class ProductService {
     return this.http.get<ProductsResponse>(target, {
       params: params,
     });
+  }
+
+  get(id: number) {
+    const target = `${environment.baseURL}/products/${id}`;
+    return this.http.get<Product>(target);
   }
 }
