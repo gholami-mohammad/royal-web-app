@@ -33,48 +33,16 @@
     </table>
   </div>
 
-  <nav aria-label="Page navigation example">
-    <ul class="pagination">
-      <li class="page-item">
-        <a class="page-link" (click)="gotoPage(1)" style="cursor: pointer"
-          >First</a
-        >
-      </li>
-      <li class="page-item" [class.disabled]="currentPage == 1">
-        <a class="page-link" (click)="gotoPage(currentPage - 1)">Previous</a>
-      </li>
-      <li
-        class="page-item"
-        *ngFor="let i of pagesTemp"
-        [class.active]="i == currentPage"
-      >
-        <a class="page-link" style="cursor: pointer" (click)="gotoPage(i)">{{
-          i
-        }}</a>
-      </li>
-      <li class="page-item" [class.disabled]="currentPage == totalPages">
-        <a
-          class="page-link"
-          (click)="gotoPage(currentPage + 1)"
-          style="cursor: pointer"
-          >Next</a
-        >
-      </li>
-      <li class="page-item">
-        <a
-          class="page-link"
-          (click)="gotoPage(totalPages)"
-          style="cursor: pointer"
-          >Last</a
-        >
-      </li>
-    </ul>
-  </nav>
+  <app-pagination
+    [totalPages]="totalPages"
+    [currentPage]="currentPage"
+    (pageChanged)="gotoPage($event)"
+  ></app-pagination>
 </div>
 
 <ng-template #noProduct>
   <div>
-    <h4>NO ITEM</h4>
+    <h4>No items available</h4>
   </div>
 </ng-template>
 

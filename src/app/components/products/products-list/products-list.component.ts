@@ -5,12 +5,13 @@ import { ProductsResponse, ProductSummary } from '../../../models/product';
 import { NgFor, NgIf } from '@angular/common';
 import { NotifService } from '../../../services/notif.service';
 import { ProductsInfoModalComponent } from '../products-info-modal/products-info-modal.component';
+import { PaginationComponent } from '../../shared/pagination/pagination.component'; // Import PaginationComponent
 
 @Component({
   selector: 'app-products-list',
-  imports: [LoadingComponent, NgIf, NgFor, ProductsInfoModalComponent],
+  imports: [LoadingComponent, NgIf, NgFor, ProductsInfoModalComponent, PaginationComponent], // Add PaginationComponent here
   templateUrl: './products-list.component.html',
-  styleUrl: './products-list.component.scss',
+  styleUrls: ['./products-list.component.scss'],
 })
 export class ProductsListComponent implements OnInit {
   loading = true;
@@ -57,11 +58,11 @@ export class ProductsListComponent implements OnInit {
   }
 
   pagerCalc() {
+    this.pagesTemp = [];
     for (let i = this.currentPage - 1; i <= this.currentPage + 1; i++) {
       if (i == 0 || i > this.totalPages) {
         continue;
       }
-
       this.pagesTemp.push(i);
     }
   }
